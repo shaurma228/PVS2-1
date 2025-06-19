@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-double START;
-double END;
+double start;
+double end;
 
 int main(int argc, char* argv[]) {
     const int N = atoi(argv[1]);
@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
     int *data = (int *) malloc(N * sizeof(int));
 
     for (int j = 0; j < LOOPS; ++j) {
-        START = omp_get_wtime();
+        start = omp_get_wtime();
         long long sum = 0;
 
         #pragma omp parallel for num_threads(THREADS) reduction(+:sum)
@@ -23,8 +23,8 @@ int main(int argc, char* argv[]) {
             sum += data[i];
         }
 
-        END = omp_get_wtime();
-        totalTime += (END - START);
+        end = omp_get_wtime();
+        totalTime += (end - start);
     }
 
     printf("Time taken: %f seconds\n", totalTime / (LOOPS*1.0));
